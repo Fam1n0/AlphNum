@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Letter to Number Converter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+        }
+
+        .output {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+        }
+
+        .instructions {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="instructions">
+            Type a sentence, and see the corresponding numbers for each letter. The sums for each word and the entire sentence will be calculated.
+        </div>
+        <input type="text" id="inputText" placeholder="Type a sentence" oninput="convertSentence()">
+        <div class="output" id="letterToNumber"></div>
+        <div class="output" id="wordSums"></div>
+        <div class="output" id="totalSum"></div>
+    </div>
+
+    <script>
+        function convertSentence() {
+            const input = document.getElementById('inputText').value;
+            let letterToNumberMapping = "";
+            let wordSums = "";
+            let totalSum = 0;
+
+            input.split(' ').forEach(word => {
+                let wordSum = 0;
+                word.split('').forEach(char => {
+                    if (char.toUpperCase() != char.toLowerCase()) {
+                        let number = char.toUpperCase().charCodeAt(0) - 64;
+                        letterToNumberMapping += `${char}(${number}) `;
+                        wordSum += number;
+                    }
+                });
+                if (wordSum > 0) {
+                    wordSums += `${word}: ${wordSum}<br>`;
+                    totalSum += wordSum;
+                }
+            });
+
+            document.getElementById('letterToNumber').innerHTML = letterToNumberMapping;
+            document.getElementById('wordSums').innerHTML = wordSums;
+            document.getElementById('totalSum').innerHTML = `Total Sum: ${totalSum}`;
+        }
+    </script>
+</body>
+</html>
